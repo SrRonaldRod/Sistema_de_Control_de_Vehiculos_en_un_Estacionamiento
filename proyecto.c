@@ -269,7 +269,7 @@ int main() {
         } else {
             opcionMenu = 0; 
         }
-        
+
         switch(opcionMenu) {
             case 1: cantidadVehiculos = registrarEntrada(listaGlobal, cantidadVehiculos, capacidadEstacionamiento); break;
             case 2: registrarSalidaYCobro(listaGlobal, cantidadVehiculos); break;
@@ -285,13 +285,14 @@ int main() {
         }
     } while(opcionMenu != 5);
     
-    printf("Integrantes:\n");
-printf("Ronald Rodriguez C.I: 31.762.090\n");
-printf ("Manuel Rodríguez C.I: 31.657.231\n");
-printf ("Jaiverson Infante C.I: 31.797.621\n");
-printf ("Alexander Sánchez C.I: 31.644.118\n");
-printf ("David Torres C.I:31.762.289\n");
-printf ("Alexander Rodríguez C.I: 31.797.479\n");
-printf ("Jean Paul Gonzalez C.I: 31.547.107\n");
     return 0;
 }   
+
+// Integrantes:
+// Ronald Rodriguez C.I: 31.762.090
+// Manuel Rodríguez C.I: 31.657.231
+// Jaiverson Infante C.I: 31.797.621
+// Alexander Sánchez C.I: 31.644.118
+// David Torres C.I: 31.762.289
+// Alexander Rodríguez C.I: 31.797.479
+// Jean Paul Gonzalez C.I: 31.547.107
