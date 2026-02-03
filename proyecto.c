@@ -14,6 +14,31 @@ typedef struct {
     int estaActivo;   // 1 si esta dentro, 0 si ya salio
 } Vehiculo;
 
+// --- FUNCIONES DE APOYO ---
+
+void limpiarConsola() {
+    int caracter;
+    while ((caracter = getchar()) != '\n' && caracter != EOF);
+}
+
+int esNumeroPuro(char cadena[]) {
+    int i = 0;
+    if (cadena[0] == '\0') return 0;
+    while (cadena[i] != '\0') {
+        if (!isdigit(cadena[i])) return 0;
+        i++;
+    }
+    return 1;
+}
+
+int validarHoraCorrecta(int horaDigitada) {
+    if (horaDigitada < 0 || horaDigitada > 23) {
+        printf("[!] ERROR: La hora debe ser entre 0 y 23.\n");
+        return 0;
+    }
+    return 1;
+}
+
 int main() {
     printf("Integrantes:\n");
 printf("Ronald Rodriguez C.I: 31.762.090\n");
