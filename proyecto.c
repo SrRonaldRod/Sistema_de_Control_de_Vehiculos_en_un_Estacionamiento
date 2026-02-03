@@ -63,7 +63,57 @@ int validarHoraCorrecta(int horaDigitada) {
     return 1;
 }
 
+// --- PROGRAMA PRINCIPAL ---
+
 int main() {
+       int capacidadEstacionamiento = 0;
+    char entradaAux[100];
+
+    printf("--- CONFIGURACION DE CAPACIDAD ---\n");
+    do {
+        printf("Elija tama\xa4o (S: 20, M: 50, L: 100): ");
+        scanf("%s", entradaAux);
+        limpiarConsola();
+
+        if (strlen(entradaAux) > 1) {
+            printf("[!] ERROR: Ingrese solo una letra.\n");
+            continue;
+        }
+
+        char letra = toupper(entradaAux[0]);
+        if (letra == 'S') capacidadEstacionamiento = 20;
+        else if (letra == 'M') capacidadEstacionamiento = 50;
+        else if (letra == 'L') capacidadEstacionamiento = 100;
+        else printf("[!] ERROR: Opcion invalida.\n");
+
+    } while (capacidadEstacionamiento == 0);
+
+    Vehiculo listaGlobal[capacidadEstacionamiento];
+    int cantidadVehiculos = 0;
+    int opcionMenu;
+
+    do {
+        printf("\n--- SISTEMA DE CONTROL DE ESTACIONAMIENTO ---\n");
+        printf("1. Registrar Entrada\n");
+        printf("2. Registrar Salida (Cobrar)\n");
+        printf("3. Mostrar listado de vehiculos\n");
+        printf("4. Contar vehiculos actuales (Recursivo)\n");
+        printf("5. Guardar registros y Salir\n");
+        printf("Seleccione una opcion: ");
+        
+        scanf("%s", entradaAux);
+        limpiarConsola();
+
+        if (esNumeroPuro(entradaAux)) {
+            opcionMenu = atoi(entradaAux);
+        } else {
+            opcionMenu = 0; 
+        }
+
+        switch(opcionMenu) {
+         }
+    }
+    
     printf("Integrantes:\n");
 printf("Ronald Rodriguez C.I: 31.762.090\n");
 printf ("Manuel Rodríguez C.I: 31.657.231\n");
