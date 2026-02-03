@@ -63,6 +63,55 @@ int validarHoraCorrecta(int horaDigitada) {
     return 1;
 }
 
+// --- LOGICA PRINCIPAL DEL SISTEMA ---
+
+int registrarEntrada(Vehiculo lista[], int cantidadActual, int limiteMaximo) {
+    if (cantidadActual >= limiteMaximo) {
+        printf("\n[!] Estacionamiento lleno.\n");
+        return cantidadActual;
+    }
+
+    char placaTemporal[10];
+    char entradaAux[100];
+    printf("\n--- REGISTRO DE ENTRADA ---\n");
+    
+    do {
+        printf("Placa: ");
+        scanf("%s", placaTemporal);
+        limpiarConsola();
+        
+        for(int i=0; placaTemporal[i]; i++) placaTemporal[i] = toupper(placaTemporal[i]);
+
+        if (!validarFormatoPlaca(placaTemporal)) continue;
+        if (verificarPlacaRepetida(placaTemporal, lista, cantidadActual)) {
+            printf("[!] ERROR: El vehiculo %s ya esta en el estacionamiento.\n", placaTemporal);
+            continue;
+        }
+        break;
+    } while (1);
+
+    strcpy(lista[cantidadActual].placa, placaTemporal);
+
+    int seleccionTipo = 0;
+    do {
+        printf("Tipo (1. Auto, 2. Moto, 3. Camioneta): ");
+        scanf("%s", entradaAux);
+        limpiarConsola();
+        if (esNumeroPuro(entradaAux)) {
+            seleccionTipo = atoi(entradaAux);
+            if (seleccionTipo < 1 || seleccionTipo > 3) {
+                printf("[!] ERROR: Seleccione 1, 2 o 3.\n");
+                seleccionTipo = 0;
+            }
+        } else {
+            printf("[!] ERROR: Ingrese solo el numero, sin letras.\n");
+        }
+    } while (seleccionTipo == 0);
+
+    if (seleccionTipo == 1) strcpy(lista[cantidadActual].tipo, "Auto");
+    else if (seleccionTipo == 2) strcpy(lista[cantidadActual].tipo, "Moto");
+    else strcpy(lista[cantidadActual].tipo, "Camioneta");
+
 // --- PROGRAMA PRINCIPAL ---
 
 int main() {
@@ -109,10 +158,6 @@ int main() {
         } else {
             opcionMenu = 0; 
         }
-
-        switch(opcionMenu) {
-         }
-    }
     
     printf("Integrantes:\n");
 printf("Ronald Rodriguez C.I: 31.762.090\n");
@@ -123,4 +168,5 @@ printf ("David Torres C.I:31.762.289\n");
 printf ("Alexander Rodríguez C.I: 31.797.479\n");
 printf ("Jean Paul Gonzalez C.I: 31.547.107\n");
     return 0;
+    }
 }   
