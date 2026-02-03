@@ -31,6 +31,30 @@ int esNumeroPuro(char cadena[]) {
     return 1;
 }
 
+int verificarPlacaRepetida(char placaAComparar[], Vehiculo lista[], int cantidad) {
+    for (int i = 0; i < cantidad; i++) {
+        if (lista[i].estaActivo == 1 && strcmp(lista[i].placa, placaAComparar) == 0) {
+            return 1;
+        }
+    }
+    return 0; 
+}
+
+int validarFormatoPlaca(char placaTexto[]) {
+    int largo = strlen(placaTexto);
+    if (largo < 3 || largo > 8) {
+        printf("[!] ERROR: La placa debe tener entre 3 y 8 caracteres.\n");
+        return 0;
+    }
+    for (int i = 0; i < largo; i++) {
+        if (!isalnum(placaTexto[i])) {
+            printf("[!] ERROR: Solo se permiten letras y numeros.\n");
+            return 0;
+        }
+    }
+    return 1;
+}
+
 int validarHoraCorrecta(int horaDigitada) {
     if (horaDigitada < 0 || horaDigitada > 23) {
         printf("[!] ERROR: La hora debe ser entre 0 y 23.\n");
