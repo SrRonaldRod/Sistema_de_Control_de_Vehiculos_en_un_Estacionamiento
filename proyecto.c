@@ -269,6 +269,21 @@ int main() {
         } else {
             opcionMenu = 0; 
         }
+        
+        switch(opcionMenu) {
+            case 1: cantidadVehiculos = registrarEntrada(listaGlobal, cantidadVehiculos, capacidadEstacionamiento); break;
+            case 2: registrarSalidaYCobro(listaGlobal, cantidadVehiculos); break;
+            case 3: listarVehiculosActivos(listaGlobal, cantidadVehiculos); break;
+            case 4: 
+                printf("\nVehiculos presentes ahora: %d\n", contarVehiculosRecursivo(listaGlobal, cantidadVehiculos - 1));
+                break;
+            case 5: 
+                if (guardarEnArchivoTexto(listaGlobal, cantidadVehiculos)) printf("Datos guardados en estacionamiento.txt.\n");
+                printf("Cerrando sistema...\n");
+                break;
+            default: printf("[!] ERROR: Ingrese un numero del 1 al 5 sin letras.\n");
+        }
+    } while(opcionMenu != 5);
     
     printf("Integrantes:\n");
 printf("Ronald Rodriguez C.I: 31.762.090\n");
@@ -279,5 +294,4 @@ printf ("David Torres C.I:31.762.289\n");
 printf ("Alexander Rodríguez C.I: 31.797.479\n");
 printf ("Jean Paul Gonzalez C.I: 31.547.107\n");
     return 0;
-    }
 }   
