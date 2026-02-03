@@ -1,4 +1,19 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define PRECIO_HORA 5
+
+typedef struct {
+    char placa[10];
+    char tipo[20];
+    int horaEntrada;
+    int horaSalida;
+    int montoPagado;
+    int estaActivo;   // 1 si esta dentro, 0 si ya salio
+} Vehiculo;
+
 int main() {
     printf("Integrantes:\n");
 printf("Ronald Rodriguez C.I: 31.762.090\n");
