@@ -112,6 +112,117 @@ int registrarEntrada(Vehiculo lista[], int cantidadActual, int limiteMaximo) {
     else if (seleccionTipo == 2) strcpy(lista[cantidadActual].tipo, "Moto");
     else strcpy(lista[cantidadActual].tipo, "Camioneta");
 
+    int horaValida = -1;
+    do {
+        printf("Hora de entrada (0-23): ");
+        scanf("%s", entradaAux);
+        limpiarConsola();
+        if (esNumeroPuro(entradaAux)) {
+            int tempHora = atoi(entradaAux);
+            if (validarHoraCorrecta(tempHora)) {
+                horaValida = tempHora;
+            }
+        } else {
+            printf("[!] ERROR: Ingrese un numero entero sin letras.\n");
+        }
+    } while (horaValida == -1);
+
+    lista[cantidadActual].horaEntrada = horaValida;
+    lista[cantidadActual].horaSalida = -1;  // Valor por defecto (no ha salido)
+    lista[cantidadActual].montoPagado = 0;  // Valor por defecto
+    lista[cantidadActual].estaActivo = 1;
+    printf("Registro exitoso.\n");
+    return cantidadActual + 1;
+}
+
+int registrarSalidaYCobro(Vehiculo lista[], int cantidadTotal) {
+    char placaBuscar[10];
+    char entradaAux[100];
+    int horaSalida = -1, tiempoTranscurrido;
+    
+    printf("\nIngrese placa para retirar: ");
+    scanf("%s", placaBuscar);
+    limpiarConsola();
+    for(int i = 0; i < strlen(placaBuscar); i++) placaBuscar[i] = toupper(placaBuscar[i]);
+
+    for (int i = 0; i < cantidadTotal; i++) {
+        if (lista[i].estaActivo == 1 && strcmp(lista[i].placa, placaBuscar) == 0) {
+            do {
+                printf("Hora de salida (0-23): ");
+                scanf("%s", entradaAux);
+                limpiarConsola();
+                if (esNumeroPuro(entradaAux)) {
+                    int tempHora = atoi(entradaAux);
+                    if (validarHoraCorrecta(tempHora)) {
+                        horaSalida = tempHora;
+                    }
+                } else {
+                    printf("[!] ERROR: Ingrese solo el numero.\n");
+                }
+            } while (horaSalida == -1);
+
+            if (horaSalida < lista[i].horaEntrada) {
+                tiempoTranscurrido = (24 - lista[i].horaEntrada) + horaSalida;
+            } else if (horaSalida == lista[i].horaEntrada) {
+                tiempoTranscurrido = 24; 
+            } else {
+                tiempoTranscurrido = horaSalida - lista[i].horaEntrada;
+            }
+
+            if (tiempoTranscurrido == 0) tiempoTranscurrido = 1; 
+
+            int totalAPagar = tiempoTranscurrido * PRECIO_HORA;
+            
+            // Guardamos los datos de salida en el struct
+            lista[i].horaSalida = horaSalida;
+            lista[i].montoPagado = totalAPagar;
+            lista[i].estaActivo = 0;
+
+            printf("\n--- RECIBO ---\nPlaca: %s\nHoras: %d\nTotal: $%d\n", 
+                    lista[i].placa, tiempoTranscurrido, totalAPagar);
+            return 1;
+        }
+    }
+    printf("[!] Vehiculo no encontrado.\n");
+    return 0;
+}
+
+void listarVehiculosActivos(Vehiculo lista[], int cantidadTotal) {
+    printf("\n--- VEHICULOS EN EL ESTACIONAMIENTO ---\n");
+    printf("%-10s | %-10s | %-10s\n", "Placa", "Tipo", "H. Entrada");
+    for (int i = 0; i < cantidadTotal; i++) {
+        if (lista[i].estaActivo == 1) {
+            printf("%-10s | %-10s | %02d:00\n", lista[i].placa, lista[i].tipo, lista[i].horaEntrada);
+        }
+    }
+}
+
+int guardarEnArchivoTexto(Vehiculo lista[], int cantidadTotal) {
+    FILE *archivo = fopen("estacionamiento.txt", "w");
+    if (archivo == NULL) return 0;
+    
+    // Escribimos una cabecera para que se entienda el archivo
+    fprintf(archivo, "PLACA TIPO ENTRADA SALIDA MONTO ESTADO\n");
+    
+    for (int i = 0; i < cantidadTotal; i++) {
+        fprintf(archivo, "%s %s %d %d %d %d\n", 
+                lista[i].placa, 
+                lista[i].tipo, 
+                lista[i].horaEntrada, 
+                lista[i].horaSalida,   // -1 si no ha salido
+                lista[i].montoPagado,  // 0 si no ha salido
+                lista[i].estaActivo);
+    }
+    fclose(archivo);
+    return 1;
+}
+
+int contarVehiculosRecursivo(Vehiculo lista[], int indice) {
+    if (indice < 0) return 0;
+    int valorActual = (lista[indice].estaActivo == 1) ? 1 : 0;
+    return valorActual + contarVehiculosRecursivo(lista, indice - 1);
+}
+
 // --- PROGRAMA PRINCIPAL ---
 
 int main() {
